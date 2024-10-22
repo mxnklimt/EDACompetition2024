@@ -5,6 +5,12 @@
 #include <cmath>
 #include <utility>
 #include <iostream>
+#include <thread>
+#include <queue>
+#include <mutex>
+#include <condition_variable>
+#include <functional>
+#include <future>
 
 // 定义一个新的结构体 Point，包含坐标和尺寸
 struct Point {
@@ -26,26 +32,94 @@ bool isOverlap(int x, int y, int buff_width, int buff_height, const std::vector<
     return false;
 }
 
-// 修改 findNonOverlappingPosition 函数，使用新的 Point 结构体
+class ThreadPool {
+public:
+    ThreadPool(size_t threads);
+    ~ThreadPool();
+    template<class F, class... Args>
+    auto enqueue(F&& f, Args&&... args) -> std::future<typename std::invoke_result<F, Args...>::type>;
+
+private:
+    std::vector<std::thread> workers;
+    std::queue<std::function<void()>> tasks;
+    std::mutex queue_mutex;
+    std::condition_variable condition;
+    bool stop;
+};
+
+ThreadPool::ThreadPool(size_t threads) : stop(false) {
+    for (size_t i = 0; i < threads; ++i) {
+        workers.emplace_back([this] {
+            for (;;) {
+                std::function<void()> task;
+                {
+                    std::unique_lock<std::mutex> lock(this->queue_mutex);
+                    this->condition.wait(lock, [this] { return this->stop || !this->tasks.empty(); });
+                    if (this->stop && this->tasks.empty()) return;
+                    task = std::move(this->tasks.front());
+                    this->tasks.pop();
+                }
+                task();
+            }
+        });
+    }
+}
+
+ThreadPool::~ThreadPool() {
+    {
+        std::unique_lock<std::mutex> lock(queue_mutex);
+        stop = true;
+    }
+    condition.notify_all();
+    for (std::thread &worker : workers) worker.join();
+}
+
+template<class F, class... Args>
+auto ThreadPool::enqueue(F&& f, Args&&... args) -> std::future<typename std::invoke_result<F, Args...>::type> {
+    using return_type = typename std::invoke_result<F, Args...>::type;
+    auto task = std::make_shared<std::packaged_task<return_type()>>(std::bind(std::forward<F>(f), std::forward<Args>(args)...));
+    std::future<return_type> res = task->get_future();
+    {
+        std::unique_lock<std::mutex> lock(queue_mutex);
+        if (stop) throw std::runtime_error("enqueue on stopped ThreadPool");
+        tasks.emplace([task]() { (*task)(); });
+    }
+    condition.notify_one();
+    return res;
+}
+
 std::pair<int, int> findNonOverlappingPosition(int center_x, int center_y, int buff_width, int buff_height, const std::vector<std::vector<Point>>& clusters) {
-    const int initial_step = 1; // 初始步长
-    int max_radius = 100; // 初始最大搜索半径
-    const double radius_multiplier = 1.5; // 指数增长因子
+    const int initial_step = 1;
+    int max_radius = 100;
+    const double radius_multiplier = 1.5;
+    ThreadPool pool(8);
+    std::vector<std::future<std::pair<int, int>>> results;
 
     while (true) {
         for (int radius = 1; radius <= max_radius; ++radius) {
-            int step = initial_step + radius / 10; // 随着半径增加步长
+            int step = initial_step + radius / 10;
             for (int dx = -radius; dx <= radius; dx += step) {
                 for (int dy = -radius; dy <= radius; dy += step) {
-                    int new_x = center_x + dx;
-                    int new_y = center_y + dy;
-                    if (!isOverlap(new_x, new_y, buff_width, buff_height, clusters)) {
-                        return {new_x, new_y};
-                    }
+                    results.emplace_back(pool.enqueue([=, &clusters] {
+                        int new_x = center_x + dx;
+                        int new_y = center_y + dy;
+                        if (!isOverlap(new_x, new_y, buff_width, buff_height, clusters)) {
+                            return std::make_pair(new_x, new_y);
+                        }
+                        return std::make_pair(-1, -1);
+                    }));
                 }
             }
         }
-        max_radius = static_cast<int>(max_radius * radius_multiplier); // 指数方式扩大搜索范围
+
+        for (auto &&result : results) {
+            auto pos = result.get();
+            if (pos.first != -1 && pos.second != -1) {
+                return pos;
+            }
+        }
+        results.clear();
+        max_radius = static_cast<int>(max_radius * radius_multiplier);
     }
 }
 
