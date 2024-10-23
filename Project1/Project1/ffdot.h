@@ -41,5 +41,11 @@ public:
     double* data;
 
 };
-
+// 定义一个新的结构体 Point，包含坐标和尺寸
+struct Point {
+    int x;
+    int y;
+    int width;
+    int height;
+};
 #endif

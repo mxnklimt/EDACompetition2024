@@ -24,6 +24,15 @@
     <ClInclude Include="readfile.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="isOverlap.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadPool.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="findNonOverlappingPosition.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="KMeans.cpp">
