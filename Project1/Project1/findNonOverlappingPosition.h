@@ -13,7 +13,7 @@ std::pair<int, int> findNonOverlappingPosition(int center_x, int center_y, int b
     std::vector<std::future<std::pair<int, int>>> results;
 
     while (true) {
-        for (int radius = 1; radius <= max_radius; ++radius) {
+        for (int radius = 1; radius <= max_radius; radius+=100) {
             int step = initial_step + radius / 10;
             for (int dx = -radius; dx <= radius; dx += step) {
                 for (int dy = -radius; dy <= radius; dy += step) {
