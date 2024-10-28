@@ -48,10 +48,13 @@ int main()
     for (int i = 0; i < cluster_num; ++i)
     {
         printf("Cluster %d:\n", i);
+        int count = 0;
         for (const auto& point : clusters[i])
         {
             printf("%d, %d, %d, %d\n", point.x, point.y, point.width, point.height);
+            count++;
         }
+        cout << count << endl;
     }
 
     // 计算每个簇的中心位置并放置缓冲区
