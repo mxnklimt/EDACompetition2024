@@ -141,9 +141,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ffdot.h" />
+    <ClInclude Include="findNonOverlappingPosition.h" />
     <ClInclude Include="isOverlap.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="readfile.h" />
+    <ClInclude Include="ThreadPool.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
