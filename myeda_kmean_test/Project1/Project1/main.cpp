@@ -16,7 +16,7 @@ double distance(const Point& p1, const Point& p2) {
     return std::sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y));
 }
 
-std::vector<Point> kmeans(std::vector<Point>& points, int k, int max_iterations,int numofcomp,int *labels) {
+std::vector<Point> kmeans(std::vector<Point>& points, int k, int max_iterations,int numofcomp,int *labels,int max_cluster_point) {
     std::vector<Point> centroids(k);
     std::vector<int> cluster_sizes(k, 0);
     std::vector<std::vector<Point>> clusters(k);
@@ -44,9 +44,9 @@ std::vector<Point> kmeans(std::vector<Point>& points, int k, int max_iterations,
             int best_cluster = 0;
             for (int i = 0; i < k; ++i) 
             {
+                // max_cluster_point = myfile.max_fanout - 1每个聚类中最多元素数量，即每个buff连接的数量
                 
-                
-                if (cluster_sizes[i] < 70) 
+                if (cluster_sizes[i] < max_cluster_point)
                 {
                     double dist = distance(points[j], centroids[i]);
                     if (dist < best_distance) {
@@ -145,7 +145,7 @@ int main()
     int k = cluster_num; // Number of clusters
     int max_iterations = 5;
     std::cout << myfile.myffdot.numofdot << endl;
-    std::vector<Point> centroids = kmeans(points, k, max_iterations,myfile.myffdot.numofdot,labels);
+    std::vector<Point> centroids = kmeans(points, k, max_iterations,myfile.myffdot.numofdot,labels, myfile.max_fanout - 1);//// max_cluster_point = myfile.max_fanout - 1每个聚类中最多元素数量，即每个buff连接的数量
 
     // std::cout << "Centroids:" << std::endl;
     // for (const auto& centroid : centroids) {
