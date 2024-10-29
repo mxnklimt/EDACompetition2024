@@ -42,9 +42,14 @@ public:
 
 };
 // 定义一个新的结构体 Point，包含坐标和尺寸
-struct comp_Point {
-    int x;
-    int y;
+//struct comp_Point {
+//    int x;
+//    int y;
+//    int width;
+//    int height;
+//};
+struct Point {
+    int x, y;
     int width;
     int height;
 };

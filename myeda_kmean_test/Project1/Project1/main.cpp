@@ -1,5 +1,6 @@
 #include "readfile.h"
 #include "ffdot.h"
+#include "isOverlap.h"
 #include <iostream>
 #include <vector>
 #include <cmath>
@@ -7,11 +8,7 @@
 #include <cstdlib>
 #include <ctime>
 
-struct Point {
-    int x, y;
-    int width;
-    int height;
-};
+
 
 double distance(const Point& p1, const Point& p2) {
     return std::sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y));
@@ -177,6 +174,36 @@ int main()
         cout << count << endl;
     }//print cluster and position
 
+    //// 计算每个簇的中心位置并放置缓冲区
+    //for (int i = 0; i < cluster_num; ++i)
+    //{
+    //    int sum_x = 0, sum_y = 0;
+    //    for (const auto& point : clusters[i])
+    //    {
+    //        sum_x += point.x;
+    //        sum_y += point.y;
+    //    }
+    //    int center_x = sum_x / clusters[i].size(); // 簇的中心x坐标
+    //    int center_y = sum_y / clusters[i].size(); // 簇的中心y坐标
+
+    //    int buff_width = static_cast<int>(myfile.myffdot.my_buffsize.x);
+    //    int buff_height = static_cast<int>(myfile.myffdot.my_buffsize.y);
+
+    //    // 检查缓冲区是否与所有簇中的任何点重叠
+    //    if (!isOverlap(center_x, center_y, buff_width, buff_height, clusters)) {
+    //        printf("Buffer placed at cluster %d center: (%d, %d)\n", i, center_x, center_y);
+    //    }
+    //    else {
+    //        // 在中心位置附近寻找合适的缓冲区位置
+    //        auto [new_x, new_y] = findNonOverlappingPosition(center_x, center_y, buff_width, buff_height, clusters);
+    //        if (new_x == center_x && new_y == center_y) {
+    //            std::cout << "error" << std::endl;
+    //        }
+    //        else {
+    //            printf("Buffer placed at cluster %d near center: (%d, %d)\n", i, new_x, new_y);
+    //        }
+    //    }
+    //}
     delete[] labels;
 
     delete myfile.myffdot.data;
