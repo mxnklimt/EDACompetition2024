@@ -226,6 +226,8 @@ int main()
             }
             else {
                 printf("buffer placed at cluster %d near center: (%d, %d)\n", i, new_x, new_y);
+                // 将新找到的非重叠位置添加到 clusters 中，从而避免其他缓冲区放置在这个位置
+                clusters.push_back({ Point{new_x, new_y, buff_width, buff_height} });
             }
         }
     }
