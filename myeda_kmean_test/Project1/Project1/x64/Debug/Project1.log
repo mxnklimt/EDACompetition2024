@@ -1,16 +1,17 @@
 ﻿  main.cpp
 I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_test\Project1\Project1\main.cpp(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_test\Project1\Project1\findNonOverlappingPosition.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
 I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_test\Project1\Project1\main.cpp(74,51): warning C4267: “/=”: 从“size_t”转换到“int”，可能丢失数据
 I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_test\Project1\Project1\main.cpp(75,51): warning C4267: “/=”: 从“size_t”转换到“int”，可能丢失数据
 I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_test\Project1\Project1\main.cpp(104,15): warning C4244: “参数”: 从“time_t”转换到“unsigned int”，可能丢失数据
-I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_test\Project1\Project1\main.cpp(113,33): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
-I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_test\Project1\Project1\main.cpp(113,27): warning C4244: “初始化”: 从“float”转换到“const int”，可能丢失数据
-I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_test\Project1\Project1\main.cpp(125,27): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
-I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_test\Project1\Project1\main.cpp(136,53): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
-I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_test\Project1\Project1\main.cpp(138,45): warning C4244: “参数”: 从“double”转换到“const unsigned __int64”，可能丢失数据
-I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_test\Project1\Project1\main.cpp(140,44): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
-I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_test\Project1\Project1\main.cpp(141,46): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
-I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_test\Project1\Project1\main.cpp(149,83): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
-I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_test\Project1\Project1\main.cpp(190,50): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
-I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_test\Project1\Project1\main.cpp(191,50): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_test\Project1\Project1\main.cpp(132,33): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_test\Project1\Project1\main.cpp(132,27): warning C4244: “初始化”: 从“float”转换到“const int”，可能丢失数据
+I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_test\Project1\Project1\main.cpp(144,27): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_test\Project1\Project1\main.cpp(155,53): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_test\Project1\Project1\main.cpp(157,45): warning C4244: “参数”: 从“double”转换到“const unsigned __int64”，可能丢失数据
+I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_test\Project1\Project1\main.cpp(159,44): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_test\Project1\Project1\main.cpp(160,46): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_test\Project1\Project1\main.cpp(168,83): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_test\Project1\Project1\main.cpp(209,50): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_test\Project1\Project1\main.cpp(210,50): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
   Project1.vcxproj -> I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_test\Project1\x64\Debug\Project1.exe

@@ -5,7 +5,7 @@
 #include "ThreadPool.h" 
 #include "ffdot.h" 
 #include "isOverlap.h" 
-std::pair<int, int> findNonOverlappingPosition(int center_x, int center_y, int buff_width, int buff_height, const std::vector<std::vector<Point>>& clusters) {
+std::pair<int, int> findNonOverlappingPosition(int center_x, int center_y, int buff_width, int buff_height, const std::vector<std::vector<Point>>& clusters,int x_max,int x_min,int y_max,int y_min) {
     const int initial_step = 100;//初始化步长
     int max_radius = 300;//初始最大化半径
     const double radius_multiplier = 2;//半径倍乘因子
@@ -23,7 +23,7 @@ std::pair<int, int> findNonOverlappingPosition(int center_x, int center_y, int b
                     //这个 lambda 函数将在一个独立的线程中执行。    
                         int new_x = center_x + dx;//新建buff的坐标
                         int new_y = center_y + dy;
-                        if (!isOverlap(new_x, new_y, buff_width, buff_height, clusters)) {//检查新建buff是否与现有的点碰撞重叠
+                        if ((!isOverlap(new_x, new_y, buff_width, buff_height, clusters)&&(new_x>x_min) && (new_x < x_max) && (new_y > y_min)) && (new_y < y_max)) {//检查新建buff是否与现有的点碰撞重叠
                             return std::make_pair(new_x, new_y);//如果不重叠，返回新建buff的坐标
                         }
                         return std::make_pair(-1, -1);//如果重叠，返回（-1，-1）

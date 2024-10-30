@@ -107,7 +107,27 @@ int main()
     myfile.setfilename("constraints.txt", "problem.def");
     myfile.get_constraintstxt();
     myfile.get_ffdot();
-    
+    cout << "ffdot.area.area1.x" << myfile.myffdot.area.area1.x << endl;
+    cout << "ffdot.area.area1.y" << myfile.myffdot.area.area1.y << endl;
+    cout << "ffdot.area.area2.x" << myfile.myffdot.area.area2.x << endl;
+    cout << "ffdot.area.area2.y" << myfile.myffdot.area.area2.y << endl;
+    cout << "ffdot.area.area3.x" << myfile.myffdot.area.area3.x << endl;
+    cout << "ffdot.area.area3.y" << myfile.myffdot.area.area3.y << endl;
+    cout << "ffdot.area.area4.x" << myfile.myffdot.area.area4.x << endl;
+    cout << "ffdot.area.area4.y" << myfile.myffdot.area.area4.y << endl;
+    //生成的buff要在上述四个点构成的长方形内
+    std::vector<int> ffdot_area_x = {myfile.myffdot.area.area1.x, myfile.myffdot.area.area2.x, myfile.myffdot.area.area3.x, myfile.myffdot.area.area4.x};
+    int ffdot_area_x_min = *std::min_element(ffdot_area_x.begin(), ffdot_area_x.end());//x_min
+    int ffdot_area_x_max = *std::max_element(ffdot_area_x.begin(), ffdot_area_x.end());//x_max
+    std::vector<int> ffdot_area_y = {myfile.myffdot.area.area1.y, myfile.myffdot.area.area2.y, myfile.myffdot.area.area3.y, myfile.myffdot.area.area4.y};
+    int ffdot_area_y_min = *std::min_element(ffdot_area_y.begin(), ffdot_area_y.end());//y_min
+    int ffdot_area_y_max = *std::max_element(ffdot_area_y.begin(), ffdot_area_y.end());//y_max
+    cout << "ffdot.area.x_min" << ffdot_area_x_min << endl;
+    cout << "ffdot.area.x_max" << ffdot_area_x_max << endl;
+    cout << "ffdot.area.y_min" << ffdot_area_y_min << endl;
+    cout << "ffdot.area.y_max" << ffdot_area_y_max << endl;
+
+
     const int size = static_cast<int>(myfile.myffdot.numofdot); //Number of Point
     const int dim = 2;   //Dimension of feature
     const int cluster_num = ceil((float)size/(myfile.max_fanout-1)); //Cluster number
@@ -199,7 +219,7 @@ int main()
         }
         else {
             // 在中心位置附近寻找合适的缓冲区位置
-            auto [new_x, new_y] = findNonOverlappingPosition(center_x, center_y, buff_width, buff_height, clusters);
+            auto [new_x, new_y] = findNonOverlappingPosition(center_x, center_y, buff_width, buff_height, clusters, ffdot_area_x_max, ffdot_area_x_min, ffdot_area_y_max, ffdot_area_y_min);
              //ThreadPool!!!!! 
             if (new_x == center_x && new_y == center_y) {
                 std::cout << "error" << std::endl;
@@ -210,7 +230,7 @@ int main()
         }
     }
 
-    //10/29 V4.2
+    //10/29 V4.3
     const int size_2 = cluster_num; //Number of Point
     const int cluster_num_2 = 50; //Cluster number
     int* labels_2 = new int[size_2];
