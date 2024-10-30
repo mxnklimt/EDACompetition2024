@@ -2,18 +2,18 @@
 #include <vector>
 #include <utility>
 #include <future>
-#include "ThreadPool.h" // 假设您有一个自定义的 ThreadPool 类
-#include "ffdot.h" // 假设您有一个自定义的 Point 类
-#include "isOverlap.h" // 假设您有一个自定义的 isOverlap 函数
+#include "ThreadPool.h" 
+#include "ffdot.h" 
+#include "isOverlap.h" 
 std::pair<int, int> findNonOverlappingPosition(int center_x, int center_y, int buff_width, int buff_height, const std::vector<std::vector<Point>>& clusters) {
-    const int initial_step = 1;
-    int max_radius = 100;
-    const double radius_multiplier = 1.5;
+    const int initial_step = 100;
+    int max_radius = 300;
+    const double radius_multiplier = 2;
     ThreadPool pool(8);
     std::vector<std::future<std::pair<int, int>>> results;
 
     while (true) {
-        for (int radius = 1; radius <= max_radius; radius += 100) {
+        for (int radius = 100; radius <= max_radius; radius=radius*2) {
             int step = initial_step + radius / 10;
             for (int dx = -radius; dx <= radius; dx += step) {
                 for (int dy = -radius; dy <= radius; dy += step) {

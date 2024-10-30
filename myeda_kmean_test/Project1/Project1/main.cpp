@@ -117,6 +117,7 @@ int main()
 
     cout << size << endl;
     cout << cluster_num << endl;
+
     vector<int> buff_cluster_num;
     int count_cluster=cluster_num;
     while(count_cluster>myfile.max_fanout-1)//循环计算要多少个buff聚类
@@ -208,6 +209,14 @@ int main()
             }
         }
     }
+
+    //10/29 V4.2
+    const int size_2 = cluster_num; //Number of Point
+    const int cluster_num_2 = 50; //Cluster number
+    int* labels_2 = new int[size_2];
+    vector<int> buff_cluster_num_2;
+    int count_cluster_2 = cluster_num_2;
+
     delete[] labels;
 
     delete myfile.myffdot.data;

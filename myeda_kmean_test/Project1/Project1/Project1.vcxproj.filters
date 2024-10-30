@@ -18,9 +18,6 @@
     <ClInclude Include="ffdot.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="main.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="readfile.h">
       <Filter>头文件</Filter>
     </ClInclude>
