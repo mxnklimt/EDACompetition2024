@@ -131,6 +131,7 @@ int main()
     const int size = static_cast<int>(myfile.myffdot.numofdot); //Number of Point
     const int dim = 2;   //Dimension of feature
     const int cluster_num = ceil((float)size/(myfile.max_fanout-1)); //Cluster number
+    cout << "cluster_num = " << cluster_num << endl;
     // const int cluster_num =100; //Cluster number
 
     int* labels = new int[size];
@@ -198,6 +199,12 @@ int main()
         cout << count << endl;
     }//print cluster and position
 
+
+
+
+    // 创建一个二维数组来存储buff1
+    std::vector<std::vector<Point>> clusters_buff1(1);
+
     // 计算每个簇的中心位置并放置缓冲区
     for (int i = 0; i < cluster_num; ++i)
     {
@@ -216,21 +223,43 @@ int main()
         // 检查缓冲区是否与所有簇中的任何点重叠
         if (!isOverlap(center_x, center_y, buff_width, buff_height, clusters)) {
             printf("buffer placed at cluster %d center: (%d, %d)\n", i, center_x, center_y);
+            clusters_buff1[0].push_back({Point{center_x, center_y, buff_width, buff_height}});//聚类中心buff存入
+            //将数据Point类型存在clusters_buff1[0]中，所以clusters_buff1[0]中会有一千多个buff的数据
         }
         else {
             // 在中心位置附近寻找合适的缓冲区位置
-            auto [new_x, new_y] = findNonOverlappingPosition(center_x, center_y, buff_width, buff_height, clusters, ffdot_area_x_max, ffdot_area_x_min, ffdot_area_y_max, ffdot_area_y_min);
+            auto [new_x, new_y] = findNonOverlappingPosition(center_x, center_y, buff_width, buff_height, clusters, ffdot_area_x_max, ffdot_area_x_min, ffdot_area_y_max, ffdot_area_y_min, clusters_buff1);
              //ThreadPool!!!!! 
             if (new_x == center_x && new_y == center_y) {
                 std::cout << "error" << std::endl;
             }
             else {
                 printf("buffer placed at cluster %d near center: (%d, %d)\n", i, new_x, new_y);
-                // 将新找到的非重叠位置添加到 clusters 中，从而避免其他缓冲区放置在这个位置
-                clusters.push_back({ Point{new_x, new_y, buff_width, buff_height} });
+                clusters_buff1[0].push_back({Point{new_x, new_y, buff_width, buff_height}});//非聚类中心buff存入
+                //将数据Point类型存在clusters_buff1[0]中，所以clusters_buff1[0]中会有一千多个buff的数据
+
+
+                //// 将新找到的非重叠位置添加到 clusters 中，从而避免其他缓冲区放置在这个位置
+                //clusters.push_back({ Point{new_x, new_y, buff_width, buff_height} });
             }
         }
     }
+
+    //debug_打印clusters_buff1内的元素
+    for (size_t i = 0; i < clusters_buff1.size(); ++i) {
+        std::cout << "Cluster " << i << ":\n";
+        int count = 0;
+        for (const auto& point : clusters_buff1[i]) {
+            // 直接访问 Point 的成员并打印
+            std::cout << "(" << point.x << ", " << point.y
+                << ", " << point.width << ", " << point.height << ") ";
+            std::cout << std::endl;
+            count++;
+        }
+        std::cout << "count =" << count << std::endl;
+        
+    }
+
 
     //10/29 V4.3
     const int size_2 = cluster_num; //Number of Point
