@@ -3,47 +3,30 @@
 #include <iostream>
 #include "ffdot.h"
 // 检查两个点是否重叠
-bool isOverlapping(const Point& p1, const Point& p2) {
-    // 计算 p1 的边界
-    double left1 = p1.x - p1.width / 2.0;
-    double right1 = p1.x + p1.width / 2.0;
-    double top1 = p1.y - p1.height / 2.0;
-    double bottom1 = p1.y + p1.height / 2.0;
-
-    // 计算 p2 的边界
-    double left2 = p2.x - p2.width / 2.0;
-    double right2 = p2.x + p2.width / 2.0;
-    double top2 = p2.y - p2.height / 2.0;
-    double bottom2 = p2.y + p2.height / 2.0;
-
-    // 判断重叠
-    bool overlapX = left1 < right2&& left2 < right1;
-    bool overlapY = top1 < bottom2&& top2 < bottom1;
-
-    return overlapX && overlapY; // 返回两个方向都重叠的结果
+bool isOverlapping(const Point& a, const Point& b) {
+    // 检查两个点的矩形区域是否重叠
+    bool xOverlap = std::abs(a.x - b.x) < (a.width + b.width) / 2.0;
+    bool yOverlap = std::abs(a.y - b.y) < (a.height + b.height) / 2.0;
+    return xOverlap && yOverlap;
 }
 
-// 判断 clusters_buff 中的所有点是否存在重叠，并打印出重叠的点对
-void checkOverlapInClusters(const std::vector<std::vector<Point>>& clusters_buff) {
-    for (size_t k = 0; k < clusters_buff.size(); ++k) {
-        const auto& cluster = clusters_buff[k];
-        int n = cluster.size();
-        // 对每个 cluster 中的点进行两两比较
-        for (int i = 0; i < n; ++i) {
-            for (int j = i + 1; j < n; ++j) {
-                if (isOverlapping(cluster[i], cluster[j])) {
-                    std::cout << "Cluster " << k << " 中的点 ("
-                        << "x1: " << cluster[i].x << ", y1: " << cluster[i].y
-                        << ") 和 (x2: " << cluster[j].x << ", y2: " << cluster[j].y
-                        << ") 存在重叠。" << std::endl;
+void areClustersOverlapping(const std::vector<std::vector<Point>>& clusters1, const std::vector<std::vector<Point>>& clusters2) {
+    // 遍历 clusters1 和 clusters2 中的每个点，并检查是否有重叠
+    for (const auto& cluster1 : clusters1) {
+        for (const auto& cluster2 : clusters2) {
+            for (const auto& point1 : cluster1) {
+                for (const auto& point2 : cluster2) {
+                    if (isOverlapping(point1, point2)) {
+                        std::cout << "Points overlap: Point in cluster1 (" << point1.x << ", " << point1.y << "), Width: "
+                            << point1.width << ", Height: " << point1.height << " with Point in cluster2 ("
+                            << point2.x << ", " << point2.y << "), Width: " << point2.width << ", Height: "
+                            << point2.height << std::endl;
+                        return; // 找到重叠点后，直接返回
+                    }
                 }
-                else
-                {
-                    cout << "/" << endl;
-                }
-                
             }
         }
     }
+    std::cout << "No overlapping points between the clusters." << std::endl; // 没有重叠点
 }
 
