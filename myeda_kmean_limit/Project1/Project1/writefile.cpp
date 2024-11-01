@@ -15,7 +15,7 @@ writeedafile::writeedafile(int ffnum,int ff_buffnum,int buff_buffnum,int fanout,
     clk_coordinate=myfile->myffdot.clk_coordinate;
     COMPONENTNUM=ffnum;
     COMPONENTNUM+=ff_buffnum;
-    COMPONENTNUM+=buff_buff_cluster_num+1;
+    COMPONENTNUM+=buff_buff_cluster_num;
     NETSNUM=ff_buffnum+buff_buff_cluster_num+1;
     cout<<"NETSNUM"<<endl; 
     cout<<NETSNUM<<endl; 

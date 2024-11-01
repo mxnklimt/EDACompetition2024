@@ -13,8 +13,14 @@ I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_l
 I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_limit\Project1\Project1\main.cpp(206,27): warning C4244: “+=”: 从“const double”转换到“int”，可能丢失数据
 I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_limit\Project1\Project1\main.cpp(208,50): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
 I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_limit\Project1\Project1\main.cpp(209,50): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
-I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_limit\Project1\Project1\main.cpp(302,27): warning C4244: “+=”: 从“const double”转换到“int”，可能丢失数据
-I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_limit\Project1\Project1\main.cpp(303,27): warning C4244: “+=”: 从“const double”转换到“int”，可能丢失数据
-I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_limit\Project1\Project1\main.cpp(305,55): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
-I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_limit\Project1\Project1\main.cpp(306,55): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_limit\Project1\Project1\main.cpp(305,27): warning C4244: “+=”: 从“const double”转换到“int”，可能丢失数据
+I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_limit\Project1\Project1\main.cpp(306,27): warning C4244: “+=”: 从“const double”转换到“int”，可能丢失数据
+I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_limit\Project1\Project1\main.cpp(308,55): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_limit\Project1\Project1\main.cpp(309,55): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  writefile.cpp
+I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_limit\Project1\Project1\writefile.cpp(32,35): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_limit\Project1\Project1\writefile.cpp(33,37): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_limit\Project1\Project1\writefile.cpp(45,37): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_limit\Project1\Project1\writefile.cpp(46,39): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+  正在生成代码...
   Project1.vcxproj -> I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_limit\Project1\x64\Debug\Project1.exe

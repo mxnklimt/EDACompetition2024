@@ -212,7 +212,10 @@ int main()
         int buff_height = static_cast<int>(myfile.myffdot.my_buffsize.y);
 
         // 检查缓冲区是否与所有簇中的任何点重叠
-        if (!isOverlap(center_x, center_y, buff_width, buff_height, clusters)) {
+        if (!isOverlap(center_x, center_y, buff_width, buff_height, clusters) &&
+            !isOverlap(center_x, center_y, buff_width, buff_height, clusters_buff1) 
+            ) {
+            //逻辑漏洞，中心buff可能与新增的buff1碰撞,现修复
             info_buff[i].x=center_x;
             info_buff[i].y=center_y;
             buffcoord[i*2]=center_x;
@@ -258,7 +261,7 @@ int main()
     }    
 
     int k1 = buff_buff_cluster_num; // Number of clusters
-    int max_iterations_buff = 5;
+    int max_iterations_buff = 100;
 
     std::vector<Point> centroids1 = kmeans(points_buff, k1, max_iterations_buff,cluster_num,bufflabels, myfile.max_fanout - 1);//// max_cluster_point = myfile.max_fanout - 1每个聚类中最多元素数量，即每个buff连接的数量   
     cout<<"------------------buff kmeans ok--------------------"<<endl;
@@ -308,10 +311,18 @@ int main()
         int buff_width = static_cast<int>(myfile.myffdot.my_buffsize.x);
         int buff_height = static_cast<int>(myfile.myffdot.my_buffsize.y);
 
+
+
         // 检查buff2是否与所有簇中的任何点和buff1重叠
-        if (   (!isOverlap(center_x, center_y, buff_width, buff_height, clusters_buff))&& (!isOverlap(center_x, center_y, buff_width, buff_height, clusters_buff1)) ) {
+        if (   (!isOverlap(center_x, center_y, buff_width, buff_height, clusters))&& 
+            (!isOverlap(center_x, center_y, buff_width, buff_height, clusters_buff1)) &&
+            (!isOverlap(center_x, center_y, buff_width, buff_height, clusters_buff2))
+            ) {
             info_buff_buff[i].x=center_x;
             info_buff_buff[i].y=center_y;
+
+
+
             clusters_buff2[0].push_back({ Point{(double)center_x, (double)center_y, buff_width, buff_height} });//聚类中心buff存入
             printf("buffer2 placed at cluster %d center: (%d, %d)\n", i, center_x, center_y);
         }
