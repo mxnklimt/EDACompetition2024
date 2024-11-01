@@ -36,6 +36,9 @@
     <ClInclude Include="writefile.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="overlap_debug.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

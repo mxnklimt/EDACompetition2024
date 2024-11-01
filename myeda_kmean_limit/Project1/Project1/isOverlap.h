@@ -15,4 +15,3 @@ bool isOverlap(int x, int y, int buff_width, int buff_height, const std::vector<
     }
     return false;
 }
-

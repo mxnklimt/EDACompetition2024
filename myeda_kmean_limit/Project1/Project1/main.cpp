@@ -4,12 +4,17 @@
 #include "isOverlap.h"
 #include "ThreadPool.h"
 #include "findNonOverlappingPosition.h"
+#include "overlap_debug.h"
 #include <iostream>
 #include <vector>
 #include <cmath>
 #include <limits>
 #include <cstdlib>
 #include <ctime>
+
+
+
+
 
 
 
@@ -216,6 +221,10 @@ int main()
             !isOverlap(center_x, center_y, buff_width, buff_height, clusters_buff1) 
             ) {
             //逻辑漏洞，中心buff可能与新增的buff1碰撞,现修复
+
+            //cout << "---------------------------- - debug1--------------------" << endl;
+            //cout << "!isOverlap(center_x, center_y, buff_width, buff_height, clusters) = " << !isOverlap(center_x, center_y, buff_width, buff_height, clusters) << endl;
+            //cout << "!isOverlap(center_x, center_y, buff_width, buff_height, clusters_buff1) = " << !isOverlap(center_x, center_y, buff_width, buff_height, clusters_buff1) << endl;
             info_buff[i].x=center_x;
             info_buff[i].y=center_y;
             buffcoord[i*2]=center_x;
@@ -235,6 +244,11 @@ int main()
             }
             else {
                 //printf("buffer placed at cluster %d near center: (%d, %d)\n", i, new_x, new_y);
+
+                //cout << "---------------------------- - debug2--------------------" << endl;
+                //cout << "!isOverlap(new_x, new_y, buff_width, buff_height, clusters) = " << !isOverlap(new_x, new_y, buff_width, buff_height, clusters) << endl;
+                //cout << "!isOverlap(new_x, new_y, buff_width, buff_height, clusters_buff1) = " << !isOverlap(new_x, new_y, buff_width, buff_height, clusters_buff1) << endl;
+
                 info_buff[i].x=new_x;
                 info_buff[i].y=new_y;
                 buffcoord[i*2]=new_x;
@@ -245,8 +259,16 @@ int main()
             }
         }
     }
-
-
+    //for (const auto& cluster : clusters_buff1) {  // 遍历每个簇
+    //    for (const auto& point : cluster) {       // 遍历簇中的每个点
+    //        std::cout << "Point: (" << point.x << ", " << point.y << ")" << std::endl;
+    //        //cout << "!isOverlap(new_x, new_y, buff_width, buff_height, clusters) = " << !isOverlap(point.x, point.y, static_cast<int>(myfile.myffdot.my_buffsize.x), static_cast<int>(myfile.myffdot.my_buffsize.y), clusters) << endl;
+    //        cout << "!isOverlap(new_x, new_y, buff_width, buff_height, clusters_buff1) = " << !isOverlap(point.x, point.y, static_cast<int>(myfile.myffdot.my_buffsize.x), static_cast<int>(myfile.myffdot.my_buffsize.y), clusters_buff1) << endl;
+    //    }
+    //}
+     cout << "---------------------------- - debug1--------------------" << endl;
+     checkOverlapInClusters(clusters_buff1);
+    cout << "---------------------------- - debug1--------------------" << endl;
     writefile->get_ff_buff_info(info_buff,cluster_num,size);
     
 
@@ -320,8 +342,10 @@ int main()
             ) {
             info_buff_buff[i].x=center_x;
             info_buff_buff[i].y=center_y;
-
-
+            cout << "---------------------------- - debug3--------------------" << endl;
+            cout << "!isOverlap(center_x, center_y, buff_width, buff_height, clusters) = " << !isOverlap(center_x, center_y, buff_width, buff_height, clusters) << endl;
+            cout << "!isOverlap(center_x, center_y, buff_width, buff_height, clusters_buff1) = " << !isOverlap(center_x, center_y, buff_width, buff_height, clusters_buff1) << endl;
+            cout << "!isOverlap(center_x, center_y, buff_width, buff_height, clusters_buff2) = " << !isOverlap(center_x, center_y, buff_width, buff_height, clusters_buff2) << endl;
 
             clusters_buff2[0].push_back({ Point{(double)center_x, (double)center_y, buff_width, buff_height} });//聚类中心buff存入
             printf("buffer2 placed at cluster %d center: (%d, %d)\n", i, center_x, center_y);
@@ -334,9 +358,14 @@ int main()
                 std::cout << "error" << std::endl;
             }
             else {
+
                 printf("buffer2 placed at cluster %d near center: (%d, %d)\n", i, new_x, new_y);
                 info_buff_buff[i].x=new_x;
                 info_buff_buff[i].y=new_y;
+                cout << "---------------------------- - debug4--------------------" << endl;
+                cout << "!isOverlap(new_x, new_y, buff_width, buff_height, clusters) = " << !isOverlap(new_x, new_y, buff_width, buff_height, clusters) << endl;
+                cout << "!isOverlap(new_x, new_y, buff_width, buff_height, clusters_buff1) = " << !isOverlap(new_x, new_y, buff_width, buff_height, clusters_buff1) << endl;
+                cout << "!isOverlap(new_x, new_y, buff_width, buff_height, clusters_buff2) = " << !isOverlap(new_x, new_y, buff_width, buff_height, clusters_buff2) << endl;
                 clusters_buff2[0].push_back({ Point{(double)new_x, (double)new_y, buff_width, buff_height} });//非聚类中心buff存入
             }
         }
@@ -345,7 +374,7 @@ int main()
     writefile->get_buff_buff_info(info_buff_buff,buff_buff_cluster_num,cluster_num);
     cout<<"im ok1"<<endl;
     writefile->get_net_info();
-    writefile->write("my_soluton.def");
+    writefile->write("solution.def");
 
 
     // for(int i=0;i<buff_buff_cluster_num+cluster_num;i++)
