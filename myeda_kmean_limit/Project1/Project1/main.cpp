@@ -20,7 +20,8 @@
 
 
 double distance(const Point& p1, const Point& p2) {
-    return std::sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y));
+    //return std::sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y));
+    return (p1.x - p2.x) + (p1.y - p2.y);
 }
 
 std::vector<Point> kmeans(std::vector<Point>& points, int k, int max_iterations,int numofcomp,int *labels,int max_cluster_point) {

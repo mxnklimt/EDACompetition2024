@@ -1,0 +1,5 @@
+net_unit_r = 0.00854572
+net_unit_c = 1.47624e-07
+max_net_rc = 446.569
+max_fanout = 65
+buffer_delay = 25.6901

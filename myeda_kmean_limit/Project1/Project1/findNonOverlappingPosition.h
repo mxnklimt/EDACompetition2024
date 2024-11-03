@@ -43,7 +43,7 @@ std::pair<int, int> findNonOverlappingPosition(int center_x, int center_y, int b
                                     clusters_buff_MHTdistance[fori] = clusters_buff_MHTdistance[fori] + Manhattan_distance(point, new_x, new_y) * Manhattan_distance(point, new_x, new_y);
                                 }
                                 clusters_buff_MHTdistance[fori] = 0.5 * net_unit_c * net_unit_r * clusters_buff_MHTdistance[fori];
-                                if (clusters_buff_MHTdistance[fori] < max_net_rc)
+                                if (clusters_buff_MHTdistance[fori] < max_net_rc*0.9)
                                 {
                                     return std::make_pair(new_x, new_y);//如果不重叠，返回新建buff的坐标
                                 }
@@ -55,11 +55,12 @@ std::pair<int, int> findNonOverlappingPosition(int center_x, int center_y, int b
                                     clusters_buff_MHTdistance[fori] = clusters_buff_MHTdistance[fori] + Manhattan_distance(point, new_x, new_y) * Manhattan_distance(point, new_x, new_y);
                                 }
                                 clusters_buff_MHTdistance[fori] = 0.5 * net_unit_c * net_unit_r * clusters_buff_MHTdistance[fori];
-                                if (clusters_buff_MHTdistance[fori] < max_net_rc)
+                                if (clusters_buff_MHTdistance[fori] < max_net_rc*0.9)
                                 {
                                     return std::make_pair(new_x, new_y);//如果不重叠，返回新建buff的坐标
                                 }
                             }
+                            return std::make_pair(new_x, new_y);//如果不重叠，返回新建buff的坐标
                             
                             
                         }
