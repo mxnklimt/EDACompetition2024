@@ -13,8 +13,8 @@ I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_l
 I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_limit\Project1\Project1\main.cpp(214,27): warning C4244: “+=”: 从“const double”转换到“int”，可能丢失数据
 I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_limit\Project1\Project1\main.cpp(216,50): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
 I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_limit\Project1\Project1\main.cpp(217,50): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
-I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_limit\Project1\Project1\main.cpp(354,27): warning C4244: “+=”: 从“const double”转换到“int”，可能丢失数据
-I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_limit\Project1\Project1\main.cpp(355,27): warning C4244: “+=”: 从“const double”转换到“int”，可能丢失数据
-I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_limit\Project1\Project1\main.cpp(357,55): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
-I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_limit\Project1\Project1\main.cpp(358,55): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_limit\Project1\Project1\main.cpp(315,27): warning C4244: “+=”: 从“const double”转换到“int”，可能丢失数据
+I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_limit\Project1\Project1\main.cpp(316,27): warning C4244: “+=”: 从“const double”转换到“int”，可能丢失数据
+I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_limit\Project1\Project1\main.cpp(318,55): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_limit\Project1\Project1\main.cpp(319,55): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
   Project1.vcxproj -> I:\English_Project\EDA0.0\visualstudioeda2_1018\EDACompetition2024\myeda_kmean_limit\Project1\x64\Debug\Project1.exe

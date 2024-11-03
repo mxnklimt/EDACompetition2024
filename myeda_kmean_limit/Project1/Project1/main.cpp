@@ -217,70 +217,31 @@ int main()
         int center_y = sum_y / clusters[i].size(); // 簇的中心y坐标
 
         int buff_width = static_cast<int>(myfile.myffdot.my_buffsize.x);
-        int buff_height = static_cast<int>(myfile.myffdot.my_buffsize.y);
-
-        // 检查缓冲区是否与所有簇中的任何点重叠
-        if (!isOverlap(center_x, center_y, buff_width, buff_height, clusters) &&
-            !isOverlap(center_x, center_y, buff_width, buff_height, clusters_buff1) 
-            ) {
-            //逻辑漏洞，中心buff可能与新增的buff1碰撞,现修复
-
-            //cout << "---------------------------- - debug1--------------------" << endl;
-            //cout << "!isOverlap(center_x, center_y, buff_width, buff_height, clusters) = " << !isOverlap(center_x, center_y, buff_width, buff_height, clusters) << endl;
-            //cout << "!isOverlap(center_x, center_y, buff_width, buff_height, clusters_buff1) = " << !isOverlap(center_x, center_y, buff_width, buff_height, clusters_buff1) << endl;
-            for (const auto& point : clusters[i])
-            {
-                clusters_buff1_MHTdistance[i] = clusters_buff1_MHTdistance[i] + Manhattan_distance(point, center_x, center_y) * Manhattan_distance(point, center_x, center_y);
-            }
-            clusters_buff1_MHTdistance[i] = 0.5 * myfile.net_unit_c * myfile.net_unit_r * clusters_buff1_MHTdistance[i];
-            info_buff[i].x=center_x;
-            info_buff[i].y=center_y;
-            buffcoord[i*2]=center_x;
-            buffcoord[i*2+1]=center_y;
-
-
-            //计算RC step1，算第一部分曼哈顿平方和
-
-
-            clusters_buff1[0].push_back({ Point{(double)center_x, (double)center_y, buff_width, buff_height} });//聚类中心buff存入
-
-
-            //将数据Point类型存在clusters_buff1[0]中，所以clusters_buff1[0]中会有一千多个buff的数据
-
-          // printf("buffer placed at cluster %d center: (%d, %d)\n", i, center_x, center_y);
-        }
-        else {
-            // 在中心位置附近寻找合适的缓冲区位置
-            auto [new_x, new_y] = findNonOverlappingPosition(center_x, center_y, buff_width, buff_height, clusters, ffdot_area_x_max, ffdot_area_x_min, ffdot_area_y_max, ffdot_area_y_min, clusters_buff1, clusters_buff2);
+        int buff_height = static_cast<int>(myfile.myffdot.my_buffsize.y); 
+        // 在中心位置附近寻找合适的缓冲区位置
+        auto [new_x, new_y] = findNonOverlappingPosition(center_x, center_y, buff_width, buff_height, clusters, ffdot_area_x_max, ffdot_area_x_min, ffdot_area_y_max, ffdot_area_y_min, clusters_buff1, clusters_buff2);
              //ThreadPool!!!!! 
-            if (new_x == center_x && new_y == center_y) {
-                std::cout << "error" << std::endl;
-            }
-            else {
-                //printf("buffer placed at cluster %d near center: (%d, %d)\n", i, new_x, new_y);
 
-                //cout << "---------------------------- - debug2--------------------" << endl;
-                //cout << "!isOverlap(new_x, new_y, buff_width, buff_height, clusters) = " << !isOverlap(new_x, new_y, buff_width, buff_height, clusters) << endl;
-                //cout << "!isOverlap(new_x, new_y, buff_width, buff_height, clusters_buff1) = " << !isOverlap(new_x, new_y, buff_width, buff_height, clusters_buff1) << endl;
+            
+        //printf("buffer placed at cluster %d near center: (%d, %d)\n", i, new_x, new_y);
+        info_buff[i].x=new_x;
+        info_buff[i].y=new_y;
+        buffcoord[i*2]=new_x;
+        buffcoord[i*2+1]=new_y;
 
-                info_buff[i].x=new_x;
-                info_buff[i].y=new_y;
-                buffcoord[i*2]=new_x;
-                buffcoord[i*2+1]=new_y;
+		for (const auto& point : clusters[i])
+		{
+			clusters_buff1_MHTdistance[i] = clusters_buff1_MHTdistance[i] + Manhattan_distance(point, new_x, new_y) * Manhattan_distance(point, new_x, new_y);
+		}
+		clusters_buff1_MHTdistance[i] = 0.5 * myfile.net_unit_c * myfile.net_unit_r * clusters_buff1_MHTdistance[i];
 
-                for (const auto& point : clusters[i])
-                {
-                    clusters_buff1_MHTdistance[i] = clusters_buff1_MHTdistance[i] + Manhattan_distance(point, new_x, new_y) * Manhattan_distance(point, new_x, new_y);
-                }
-                clusters_buff1_MHTdistance[i] = 0.5 * myfile.net_unit_c * myfile.net_unit_r * clusters_buff1_MHTdistance[i];
-                
-                //计算RC step1，算第一部分曼哈顿平方和
+		//计算RC step1，算第一部分曼哈顿平方和
 
-                clusters_buff1[0].push_back({ Point{(double)new_x, (double)new_y, buff_width, buff_height} });//非聚类中心buff存入
-                //std::cout << clusters_buff1[0][i].x << std::endl;
-                //将数据Point类型存在clusters_buff1[0]中，所以clusters_buff1[0]中会有一千多个buff的数据
-            }
-        }
+		clusters_buff1[0].push_back({ Point{(double)new_x, (double)new_y, buff_width, buff_height} });//非聚类中心buff存入
+		//std::cout << clusters_buff1[0][i].x << std::endl;
+		//将数据Point类型存在clusters_buff1[0]中，所以clusters_buff1[0]中会有一千多个buff的数据
+           
+        
     }
     //for (const auto& cluster : clusters_buff1) {  // 遍历每个簇
     //    for (const auto& point : cluster) {       // 遍历簇中的每个点
@@ -363,47 +324,25 @@ int main()
 
 
 
-        // 检查buff2是否与所有簇中的任何点和buff1重叠
-        if (   (!isOverlap(center_x, center_y, buff_width, buff_height, clusters))&& 
-            (!isOverlap(center_x, center_y, buff_width, buff_height, clusters_buff1)) &&
-            (!isOverlap(center_x, center_y, buff_width, buff_height, clusters_buff2))
-            ) {
-            info_buff_buff[i].x=center_x;
-            info_buff_buff[i].y=center_y;
-            for (int j = 0; j < cluster_num; ++j)
-            {
-                if (i == bufflabels[j])
-                {
-                    clusters_buff1_MHTdistance[j] = clusters_buff1_MHTdistance[j] + 0.5 * myfile.net_unit_c * myfile.net_unit_r * Manhattan_distance(clusters_buff1[0][j], center_x, center_y) * Manhattan_distance(clusters_buff1[0][j], center_x, center_y);
-                }
-            }
-            //cout << "---------------------------- - debug3--------------------" << endl;
-            //cout << "!isOverlap(center_x, center_y, buff_width, buff_height, clusters) = " << !isOverlap(center_x, center_y, buff_width, buff_height, clusters) << endl;
-            //cout << "!isOverlap(center_x, center_y, buff_width, buff_height, clusters_buff1) = " << !isOverlap(center_x, center_y, buff_width, buff_height, clusters_buff1) << endl;
-            //cout << "!isOverlap(center_x, center_y, buff_width, buff_height, clusters_buff2) = " << !isOverlap(center_x, center_y, buff_width, buff_height, clusters_buff2) << endl;
+        
+		//printf("buffer2 placed at cluster %d center: (%d, %d)\n", i, center_x, center_y);
+		// 在中心位置附近寻找合适的缓冲区位置
+		auto [new_x, new_y] = findNonOverlappingPosition(center_x, center_y, buff_width, buff_height, clusters, ffdot_area_x_max, ffdot_area_x_min, ffdot_area_y_max, ffdot_area_y_min, clusters_buff1, clusters_buff2);
+		//ThreadPool!!!!! 
 
-            clusters_buff2[0].push_back({ Point{(double)center_x, (double)center_y, buff_width, buff_height} });//聚类中心buff存入
-            //printf("buffer2 placed at cluster %d center: (%d, %d)\n", i, center_x, center_y);
-        }
-        else {
-            // 在中心位置附近寻找合适的缓冲区位置
-            auto [new_x, new_y] = findNonOverlappingPosition(center_x, center_y, buff_width, buff_height, clusters, ffdot_area_x_max, ffdot_area_x_min, ffdot_area_y_max, ffdot_area_y_min, clusters_buff1,clusters_buff2);
-             //ThreadPool!!!!! 
-            if (new_x == center_x && new_y == center_y) {
-                std::cout << "error" << std::endl;
-            }
-            else {
 
-                //printf("buffer2 placed at cluster %d near center: (%d, %d)\n", i, new_x, new_y);
-                info_buff_buff[i].x=new_x;
-                info_buff_buff[i].y=new_y;
-                //cout << "---------------------------- - debug4--------------------" << endl;
-                //cout << "!isOverlap(new_x, new_y, buff_width, buff_height, clusters) = " << !isOverlap(new_x, new_y, buff_width, buff_height, clusters) << endl;
-                //cout << "!isOverlap(new_x, new_y, buff_width, buff_height, clusters_buff1) = " << !isOverlap(new_x, new_y, buff_width, buff_height, clusters_buff1) << endl;
-                //cout << "!isOverlap(new_x, new_y, buff_width, buff_height, clusters_buff2) = " << !isOverlap(new_x, new_y, buff_width, buff_height, clusters_buff2) << endl;
-                clusters_buff2[0].push_back({ Point{(double)new_x, (double)new_y, buff_width, buff_height} });//非聚类中心buff存入
-            }
-        }
+
+		   //printf("buffer2 placed at cluster %d near center: (%d, %d)\n", i, new_x, new_y);
+		info_buff_buff[i].x = new_x;
+		info_buff_buff[i].y = new_y;
+		for (int j = 0; j < cluster_num; ++j)
+		{
+			if (i == bufflabels[j])
+			{
+				clusters_buff1_MHTdistance[j] = clusters_buff1_MHTdistance[j] + 0.5 * myfile.net_unit_c * myfile.net_unit_r * Manhattan_distance(clusters_buff1[0][j], center_x, center_y) * Manhattan_distance(clusters_buff1[0][j], center_x, center_y);
+			}
+		}
+		clusters_buff2[0].push_back({ Point{(double)new_x, (double)new_y, buff_width, buff_height} });//非聚类中心buff存入
     }
 
     writefile->get_buff_buff_info(info_buff_buff,buff_buff_cluster_num,cluster_num);
