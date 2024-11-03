@@ -199,6 +199,8 @@ int main()
     //创建一个数组来储存buff1的曼哈顿距离平方和,初始化为0
     std::vector<double> clusters_buff1_MHTdistance(cluster_num,0.0);
 
+
+
     // 计算每个簇的中心位置并放置缓冲区
     for (int i = 0; i < cluster_num; ++i)
     {
@@ -219,7 +221,12 @@ int main()
         int buff_width = static_cast<int>(myfile.myffdot.my_buffsize.x);
         int buff_height = static_cast<int>(myfile.myffdot.my_buffsize.y); 
         // 在中心位置附近寻找合适的缓冲区位置
-        auto [new_x, new_y] = findNonOverlappingPosition(center_x, center_y, buff_width, buff_height, clusters, ffdot_area_x_max, ffdot_area_x_min, ffdot_area_y_max, ffdot_area_y_min, clusters_buff1, clusters_buff2);
+        auto [new_x, new_y] = findNonOverlappingPosition(center_x, center_y, buff_width, buff_height,
+            clusters, ffdot_area_x_max, ffdot_area_x_min, ffdot_area_y_max, ffdot_area_y_min, 
+            clusters_buff1, clusters_buff2,
+            clusters_buff1_MHTdistance,i,myfile.net_unit_c,myfile.net_unit_r,myfile.max_net_rc,1, 
+            clusters_buff1);  //这里Cluster_buff1的调用没用
+      
              //ThreadPool!!!!! 
 
             
@@ -229,11 +236,7 @@ int main()
         buffcoord[i*2]=new_x;
         buffcoord[i*2+1]=new_y;
 
-		for (const auto& point : clusters[i])
-		{
-			clusters_buff1_MHTdistance[i] = clusters_buff1_MHTdistance[i] + Manhattan_distance(point, new_x, new_y) * Manhattan_distance(point, new_x, new_y);
-		}
-		clusters_buff1_MHTdistance[i] = 0.5 * myfile.net_unit_c * myfile.net_unit_r * clusters_buff1_MHTdistance[i];
+
 
 		//计算RC step1，算第一部分曼哈顿平方和
 
@@ -298,7 +301,9 @@ int main()
 
 
     
-    
+    //创建一个数组来储存buff1的曼哈顿距离平方和,初始化为0
+    std::vector<double> clusters_buff2_MHTdistance(buff_buff_cluster_num, 0.0);
+
     buff_buff_info* info_buff_buff;
     info_buff_buff=new buff_buff_info[buff_buff_cluster_num]();
     // 计算每个簇的中心位置并放置缓冲区
@@ -327,7 +332,10 @@ int main()
         
 		//printf("buffer2 placed at cluster %d center: (%d, %d)\n", i, center_x, center_y);
 		// 在中心位置附近寻找合适的缓冲区位置
-		auto [new_x, new_y] = findNonOverlappingPosition(center_x, center_y, buff_width, buff_height, clusters, ffdot_area_x_max, ffdot_area_x_min, ffdot_area_y_max, ffdot_area_y_min, clusters_buff1, clusters_buff2);
+		auto [new_x, new_y] = findNonOverlappingPosition(center_x, center_y, buff_width, buff_height, 
+            clusters, ffdot_area_x_max, ffdot_area_x_min, ffdot_area_y_max, ffdot_area_y_min, 
+            clusters_buff1, clusters_buff2,clusters_buff2_MHTdistance, i, myfile.net_unit_c, myfile.net_unit_r, myfile.max_net_rc,2,
+            clusters_buff);
 		//ThreadPool!!!!! 
 
 
