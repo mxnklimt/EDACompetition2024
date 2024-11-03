@@ -5,6 +5,7 @@
 #include "ThreadPool.h"
 #include "findNonOverlappingPosition.h"
 #include "overlap_debug.h"
+#include "Manhattan_distance.h"
 #include <iostream>
 #include <vector>
 #include <cmath>
@@ -195,6 +196,8 @@ int main()
 
     // 创建一个二维数组来存储buff2
     std::vector<std::vector<Point>> clusters_buff2(1);
+    //创建一个数组来储存buff1的曼哈顿距离平方和,初始化为0
+    std::vector<double> clusters_buff1_MHTdistance(cluster_num,0.0);
 
     // 计算每个簇的中心位置并放置缓冲区
     for (int i = 0; i < cluster_num; ++i)
@@ -225,19 +228,30 @@ int main()
             //cout << "---------------------------- - debug1--------------------" << endl;
             //cout << "!isOverlap(center_x, center_y, buff_width, buff_height, clusters) = " << !isOverlap(center_x, center_y, buff_width, buff_height, clusters) << endl;
             //cout << "!isOverlap(center_x, center_y, buff_width, buff_height, clusters_buff1) = " << !isOverlap(center_x, center_y, buff_width, buff_height, clusters_buff1) << endl;
+            for (const auto& point : clusters[i])
+            {
+                clusters_buff1_MHTdistance[i] = clusters_buff1_MHTdistance[i] + Manhattan_distance(point, center_x, center_y) * Manhattan_distance(point, center_x, center_y);
+            }
+            clusters_buff1_MHTdistance[i] = 0.5 * myfile.net_unit_c * myfile.net_unit_r * clusters_buff1_MHTdistance[i];
             info_buff[i].x=center_x;
             info_buff[i].y=center_y;
             buffcoord[i*2]=center_x;
             buffcoord[i*2+1]=center_y;
 
+
+            //计算RC step1，算第一部分曼哈顿平方和
+
+
             clusters_buff1[0].push_back({ Point{(double)center_x, (double)center_y, buff_width, buff_height} });//聚类中心buff存入
+
+
             //将数据Point类型存在clusters_buff1[0]中，所以clusters_buff1[0]中会有一千多个buff的数据
 
           // printf("buffer placed at cluster %d center: (%d, %d)\n", i, center_x, center_y);
         }
         else {
             // 在中心位置附近寻找合适的缓冲区位置
-            auto [new_x, new_y] = findNonOverlappingPosition(center_x, center_y, buff_width, buff_height, clusters, ffdot_area_x_max, ffdot_area_x_min, ffdot_area_y_max, ffdot_area_y_min, clusters_buff1, clusters_buff2,1);
+            auto [new_x, new_y] = findNonOverlappingPosition(center_x, center_y, buff_width, buff_height, clusters, ffdot_area_x_max, ffdot_area_x_min, ffdot_area_y_max, ffdot_area_y_min, clusters_buff1, clusters_buff2);
              //ThreadPool!!!!! 
             if (new_x == center_x && new_y == center_y) {
                 std::cout << "error" << std::endl;
@@ -254,7 +268,16 @@ int main()
                 buffcoord[i*2]=new_x;
                 buffcoord[i*2+1]=new_y;
 
+                for (const auto& point : clusters[i])
+                {
+                    clusters_buff1_MHTdistance[i] = clusters_buff1_MHTdistance[i] + Manhattan_distance(point, new_x, new_y) * Manhattan_distance(point, new_x, new_y);
+                }
+                clusters_buff1_MHTdistance[i] = 0.5 * myfile.net_unit_c * myfile.net_unit_r * clusters_buff1_MHTdistance[i];
+                
+                //计算RC step1，算第一部分曼哈顿平方和
+
                 clusters_buff1[0].push_back({ Point{(double)new_x, (double)new_y, buff_width, buff_height} });//非聚类中心buff存入
+                //std::cout << clusters_buff1[0][i].x << std::endl;
                 //将数据Point类型存在clusters_buff1[0]中，所以clusters_buff1[0]中会有一千多个buff的数据
             }
         }
@@ -291,14 +314,18 @@ int main()
     // 创建一个二维数组来存储每个簇的点
     std::vector<std::vector<Point>> clusters_buff(buff_buff_cluster_num);
 
+
+
     for (int i = 0; i < cluster_num; ++i)
     {
         int cluster_id = bufflabels[i];
+        //bufflabels里面存了buff1对应的buff2编号
         int x = static_cast<int>(buffcoord[i * dim + 0]);
         int y = static_cast<int>(buffcoord[i * dim + 1]);
         int width = static_cast<int>(myfile.myffdot.my_buffsize.x);
         int height = static_cast<int>(myfile.myffdot.my_buffsize.y);
         clusters_buff[cluster_id].emplace_back(Point{ (double)x, (double)y, width, height });
+        
         //强制转换为double
     }//Put the data into std::vector<std::vector<Point>> clusters(cluster_num);
 
@@ -330,6 +357,7 @@ int main()
         int center_x = sum_x / clusters_buff[i].size(); // 簇的中心x坐标
         int center_y = sum_y / clusters_buff[i].size(); // 簇的中心y坐标
 
+        //cluster_buff[i]可以获得当前buff2连接的所有buff1的数据
         int buff_width = static_cast<int>(myfile.myffdot.my_buffsize.x);
         int buff_height = static_cast<int>(myfile.myffdot.my_buffsize.y);
 
@@ -342,6 +370,13 @@ int main()
             ) {
             info_buff_buff[i].x=center_x;
             info_buff_buff[i].y=center_y;
+            for (int j = 0; j < cluster_num; ++j)
+            {
+                if (i == bufflabels[j])
+                {
+                    clusters_buff1_MHTdistance[j] = clusters_buff1_MHTdistance[j] + 0.5 * myfile.net_unit_c * myfile.net_unit_r * Manhattan_distance(clusters_buff1[0][j], center_x, center_y) * Manhattan_distance(clusters_buff1[0][j], center_x, center_y);
+                }
+            }
             //cout << "---------------------------- - debug3--------------------" << endl;
             //cout << "!isOverlap(center_x, center_y, buff_width, buff_height, clusters) = " << !isOverlap(center_x, center_y, buff_width, buff_height, clusters) << endl;
             //cout << "!isOverlap(center_x, center_y, buff_width, buff_height, clusters_buff1) = " << !isOverlap(center_x, center_y, buff_width, buff_height, clusters_buff1) << endl;
@@ -352,7 +387,7 @@ int main()
         }
         else {
             // 在中心位置附近寻找合适的缓冲区位置
-            auto [new_x, new_y] = findNonOverlappingPosition(center_x, center_y, buff_width, buff_height, clusters, ffdot_area_x_max, ffdot_area_x_min, ffdot_area_y_max, ffdot_area_y_min, clusters_buff1,clusters_buff2,2);
+            auto [new_x, new_y] = findNonOverlappingPosition(center_x, center_y, buff_width, buff_height, clusters, ffdot_area_x_max, ffdot_area_x_min, ffdot_area_y_max, ffdot_area_y_min, clusters_buff1,clusters_buff2);
              //ThreadPool!!!!! 
             if (new_x == center_x && new_y == center_y) {
                 std::cout << "error" << std::endl;
@@ -372,7 +407,7 @@ int main()
     }
 
     writefile->get_buff_buff_info(info_buff_buff,buff_buff_cluster_num,cluster_num);
-    cout<<"im ok1"<<endl;
+   // cout<<"im ok1"<<endl;
     writefile->get_net_info();
     writefile->write("solution.def");
 
