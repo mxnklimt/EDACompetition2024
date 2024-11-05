@@ -1,0 +1,15 @@
+使用方法:
+1.进入main文件的目录
+2.执行./main <constraints.txt的地址> <problem.def的地址>
+举例:
+文件目录如下所示
+└── home
+    └── eda240101_submission
+        └── submission
+            ├── main
+            ├── readme
+            ├── problem.def
+            ├── constraints.txt
+
+终端执行./main constraints.txt problem.def 运行完成后在该文件夹下生成solution.def文件
+
