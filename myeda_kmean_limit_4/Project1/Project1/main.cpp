@@ -24,7 +24,7 @@ int main(int argc, char **argv)
     srand(time(0));
     readedafile myfile;
 
-   // myfile.setfilename(argv[1], argv[2]);
+    //myfile.setfilename(argv[1], argv[2]);
     myfile.setfilename("constraints.txt", "problem.def");
     myfile.get_constraintstxt();
     myfile.get_ffdot();
@@ -86,6 +86,5 @@ int main(int argc, char **argv)
 
     delete mytotal_cluster;
     delete myfile.myffdot.data;
-    delete mywriteedafile;
     return 0;
 }

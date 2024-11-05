@@ -2,9 +2,7 @@
 #include "findNonOverlappingPosition.h"
 #include <numeric>
 double total_cluster::distance(const Point& p1, const Point& p2) {
-    //return ((std::abs(p1.x - p2.x))+ (std::abs(p1.y - p2.y)) );
-    return (((p1.x - p2.x)) + ((p1.y - p2.y)));
-    //基于bug运行,case1.2经测试更优
+    return (((p1.x - p2.x))+ ((p1.y - p2.y)) );
 }
 
 
